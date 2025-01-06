@@ -1,11 +1,20 @@
 "use client";
 
+import useExperience from "@/app/experience/_store/store";
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function ExperiencePage() {
+  const { experience, setExperience } = useExperience();
+  const router = useRouter();
   const submit = useCallback(() => {
-    console.log("확인");
+    router.push("/experience/1");
   }, []);
+
+  const handleExperience = useCallback((e: any) => {
+    setExperience(e.target.value);
+  }, []);
+
   return (
     <div className="grid items-center justify-items-center">
       <h1>경험</h1>
@@ -14,7 +23,7 @@ export default function Home() {
       <div>그 경험에는 어떤 강점이 있나요?</div>
       <input type={"text"} />
       <div>구체적인 경험을 가감없이 작성해주세요.</div>
-      <textarea />
+      <textarea value={experience} onChange={handleExperience} />
       <button onClick={submit}>확인</button>
     </div>
   );
