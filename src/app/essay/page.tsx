@@ -1,6 +1,7 @@
 "use client";
 
-import useJaso from "@/app/script/_store/store";
+import useEssay from "@/app/_store/essay";
+import { ChangeEvent } from "react";
 
 const data = [
   { category: "성공경험", explanation: "성공경험에 대해 말해주세요." },
@@ -15,8 +16,35 @@ const data = [
   { category: "직업윤리", explanation: "(직업이슈)에 대한 자신의 생각을 말해주세요." },
 ];
 
-export default function Home() {
-  const { jaso, setJaso } = useJaso();
+export default function Essay() {
+  const {
+    succeed,
+    job,
+    teamwork,
+    motivation,
+    hope,
+    personality,
+    growth,
+    issue,
+    opinion,
+    ethic,
+    setSucceed,
+    setJob,
+    setTeamwork,
+    setMotivation,
+    setHope,
+    setPersonality,
+    setGrowth,
+    setIssue,
+    setOpinion,
+    setEthic,
+  } = useEssay();
+
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setSucceed(e.target.value);
+    console.log(e.target.value);
+  };
+
   return (
     <div className="grid grid-flow-col grid-cols-4">
       <div className="grid items-center">
@@ -30,12 +58,7 @@ export default function Home() {
       <div className="col-span-2 grid justify-items-center">
         <h1>자기소개서 문항</h1>
         <div>{"카테고리 별 질문지"}</div>
-        <textarea
-          onChange={(e) => {
-            setJaso(e.target.value);
-            console.log(e.target.value);
-          }}
-        />
+        <textarea onChange={handleChange} />
         <button>제출</button>
       </div>
     </div>
