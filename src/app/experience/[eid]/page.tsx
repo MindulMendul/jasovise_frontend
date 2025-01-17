@@ -1,16 +1,15 @@
 "use client";
 
 import useExperience from "@/app/experience/_store/store";
-import { ExperienceResultType } from "@/types/experience";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
-const data: ExperienceResultType = {
+const data: ExperienceResult = {
   title: "기상천외한 방법으로 노예를 부림.",
-  text: "사람들을 노예처럼 부렸다. 희열을 느꼈다. 사람들을 쳇바퀴에 넣고 쳇바퀴를 돌렸다. 잠을 재우지 않았다. 노예가 말을 듣지 않으면 여려 명이서 구타했다. 노예들이 밤에 잠을 잘 지도 모르니 불침번을 돌면서 괴롭혔다.",
+  content: "사람들을 노예처럼 부렸다. 희열을 느꼈다. 사람들을 쳇바퀴에 넣고 쳇바퀴를 돌렸다. 잠을 재우지 않았다. 노예가 말을 듣지 않으면 여려 명이서 구타했다. 노예들이 밤에 잠을 잘 지도 모르니 불침번을 돌면서 괴롭혔다.",
   detail: [
     {
-      title: "리더십",
+      theme: "리더십",
       explanation: ["사람들을 노예처럼 부렸다.", "희열을 느꼈다."],
       question: [
         "리더십을 발휘하여 일을 해결해본 경험에 대해서 말해주세요.",
@@ -18,7 +17,7 @@ const data: ExperienceResultType = {
       ],
     },
     {
-      title: "창의성",
+      theme: "창의성",
       explanation: ["쳇바퀴를 돌렸다.", "잠을 재우지 않았다."],
       question: [
         "남들과 다른 방식으로 문제를 해결한 경험에 대해서 말해주세요.",
@@ -26,7 +25,7 @@ const data: ExperienceResultType = {
       ],
     },
     {
-      title: "협업 능력",
+      theme: "협업 능력",
       explanation: ["여러 명이서 구타했다.", "불침번을 돌면서 괴롭혔다."],
       question: [
         "다른 사람과 함께 협업했던 경험에 대해서 말해주세요.",
@@ -51,12 +50,15 @@ function Loading() {
 export default function ExperienceResultPage() {
   const router = useRouter();
   const { result } = useExperience();
-  const prev = useCallback(() => {
+
+  const goPrevPage = useCallback(() => {
     router.push("/experience");
   }, []);
+
   const submit = useCallback(() => {
-    router.push("/script");
+    router.push("/essay");
   }, []);
+
   return result ? (
     <div className="grid items-center justify-items-center">
       <h1>당신의 경험을 분석해보았어요.</h1>
@@ -69,7 +71,7 @@ export default function ExperienceResultPage() {
         <div className="grid">
           {result.detail.map((d, key) => (
             <div key={key} className="font-bold">
-              {d.title}
+              {d.theme}
             </div>
           ))}
         </div>
@@ -80,7 +82,7 @@ export default function ExperienceResultPage() {
           {result.detail.map((d, key) => (
             <div key={key}>
               <div>
-                <span className="font-bold">"{d.title}"</span> 문항을 강조할 수 있는 부분이 있어요.
+                <span className="font-bold">"{d.theme}"</span> 문항을 강조할 수 있는 부분이 있어요.
               </div>
               <div>
                 <span>
@@ -90,7 +92,7 @@ export default function ExperienceResultPage() {
                     </span>
                   ))}
                 </span>
-                부분에서 <span className="font-bold">"{d.title}"</span>을 강조할 수 있어요!
+                부분에서 <span className="font-bold">"{d.theme}"</span>을 강조할 수 있어요!
               </div>
             </div>
           ))}
@@ -100,7 +102,7 @@ export default function ExperienceResultPage() {
           {result.detail.map((d, key) => (
             <div key={key} className="grid">
               <div>
-                <span className="font-bold">{d.title}</span> <span> 예시</span>
+                <span className="font-bold">{d.theme}</span> <span> 예시</span>
               </div>
               {d.question.map((questionText, qkey) => (
                 <span key={qkey}>"{questionText}"</span>
@@ -112,7 +114,7 @@ export default function ExperienceResultPage() {
       <div>
         <h3>해당 경험을 바탕으로 자기소개서를 작성하러 가보실래요?</h3>
         <button onClick={submit}>자기소개서 쓰러 가기</button>
-        <button onClick={prev}>경험 수정하기</button>
+        <button onClick={goPrevPage}>경험 수정하기</button>
       </div>
     </div>
   ) : (

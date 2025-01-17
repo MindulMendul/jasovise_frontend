@@ -1,20 +1,19 @@
-import { ExperienceResultType } from "@/types/experience";
 import { create } from "zustand";
 
 interface ExperienceState {
-  result: ExperienceResultType | null;
+  result: ExperienceResult | null;
   experience: string;
 }
 
 interface ExperienceActions {
-  setResult: (result: ExperienceResultType) => void;
+  setResult: (result: ExperienceResult) => void;
   setExperience: (experience: string) => void;
 }
 
 const useExperience = create<ExperienceState & ExperienceActions>((set) => ({
   result: null,
   experience: "",
-  setResult: (result: ExperienceResultType) => {
+  setResult: (result: ExperienceResult) => {
     set({ result });
   },
   setExperience: (experience: string) => {
