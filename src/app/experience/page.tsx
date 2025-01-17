@@ -1,6 +1,6 @@
 "use client";
 
-import useExperience from "@/app/experience/_store/store";
+import useExperience from "@/app/_store/experience";
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 
