@@ -33,7 +33,7 @@ export default function EssayResultPage() {
   }, []);
 
   const goPrevPage = useCallback(() => {
-    router.push("/experience");
+    router.push("/essay");
   }, []);
 
   return result?.length ? (
