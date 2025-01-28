@@ -1,51 +1,42 @@
 "use client";
 
+import { getAnalyedEssay } from "@/apis/essayAPI";
 import useEvaluation from "@/app/_store/evaluation";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
-const result: AnalyzedEssay = {
-  detail: [
-    {
-      title: "string;",
-      score: "상",
-      comment: "string;",
-    },
-  ],
-  amendment: [
-    {
-      title: "string;",
-      comment: "string;",
-    },
-  ],
-  result: "",
-};
-
-function Loading() {
-  const { setDetail, setAmendment, setResult } = useEvaluation();
+export default function EssayResultPage() {
+  const router = useRouter();
+  const { detail, amendment, result, setDetail, setAmendment, setResult } = useEvaluation();
   useEffect(() => {
     (async () => {
-      setDetail([]);
-      setAmendment([]);
-      setResult("");
+      // const [data, error] = await getAnalyedEssay();
+      // if (error) {
+      //   console.error(error);
+      //   return;
+      // }
+      setDetail([
+        {
+          title: "string;",
+          score: "상",
+          comment: "string;",
+        },
+      ]);
+      setAmendment([
+        {
+          title: "string;",
+          comment: "string;",
+        },
+      ]);
+      setResult("asdf");
     })();
   }, []);
-  return (
-    <div className="grid items-center justify-items-center">
-      <h1>로딩</h1>
-    </div>
-  );
-}
-
-export default function ExperienceResultPage() {
-  const router = useRouter();
-  const { detail, amendment, result } = useEvaluation();
 
   const goPrevPage = useCallback(() => {
     router.push("/experience");
   }, []);
 
-  return result ? (
+  return result?.length ? (
     <div className="grid items-center justify-items-center">
       <h1>당신의 자기소개서를 분석해보았어요.</h1>
       <div>
@@ -79,6 +70,8 @@ export default function ExperienceResultPage() {
       </div>
     </div>
   ) : (
-    <Loading />
+    <div className="grid items-center justify-items-center">
+      <h1>로딩</h1>
+    </div>
   );
 }
