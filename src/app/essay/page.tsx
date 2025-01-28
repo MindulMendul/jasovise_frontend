@@ -1,7 +1,8 @@
 "use client";
 
 import useEssay from "@/app/_store/essay";
-import { ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useCallback } from "react";
 
 const data = [
   { category: "성공경험", explanation: "성공경험에 대해 말해주세요." },
@@ -39,11 +40,16 @@ export default function Essay() {
     setOpinion,
     setEthic,
   } = useEssay();
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setSucceed(e.target.value);
     console.log(e.target.value);
   };
+
+  const submit = useCallback(() => {
+    router.push("/evaluation");
+  }, []);
 
   return (
     <div className="grid grid-flow-col grid-cols-4">
@@ -59,7 +65,7 @@ export default function Essay() {
         <h1>자기소개서 문항</h1>
         <div>{"카테고리 별 질문지"}</div>
         <textarea onChange={handleChange} />
-        <button>제출</button>
+        <button onClick={submit}>제출</button>
       </div>
     </div>
   );
