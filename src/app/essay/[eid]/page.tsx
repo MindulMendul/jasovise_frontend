@@ -1,34 +1,27 @@
 "use client";
 
-import { getAnalyedEssay } from "@/apis/essayAPI";
+import { loadData } from "@/app/essay/_action/action";
+import useEssay from "@/app/_store/essay";
 import useEvaluation from "@/app/_store/evaluation";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
 export default function EssayResultPage() {
   const router = useRouter();
+  const { category, essay } = useEssay();
   const { detail, amendment, result, setDetail, setAmendment, setResult } = useEvaluation();
   useEffect(() => {
     (async () => {
-      // const [data, error] = await getAnalyedEssay();
-      // if (error) {
-      //   console.error(error);
-      //   return;
-      // }
-      setDetail([
-        {
-          title: "string;",
-          score: "상",
-          comment: "string;",
-        },
-      ]);
-      setAmendment([
-        {
-          title: "string;",
-          comment: "string;",
-        },
-      ]);
-      setResult("asdf");
+      const essayData = {
+        category: category,
+        essay: essay,
+      };
+      const evaluationData = await loadData(essayData);
+      if (evaluationData === null) return;
+
+      setDetail(evaluationData.detail);
+      setAmendment(evaluationData.amendment);
+      setResult(evaluationData.result);
     })();
   }, []);
 

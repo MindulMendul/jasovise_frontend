@@ -1,8 +1,9 @@
 "use client";
 
+import { postEssay } from "@/apis/essayAPI";
 import useEssay from "@/app/_store/essay";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useCallback } from "react";
+import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 
 const data = [
   { category: "성공경험", explanation: "성공경험에 대해 말해주세요." },
@@ -18,53 +19,38 @@ const data = [
 ];
 
 export default function Essay() {
-  const {
-    succeed,
-    job,
-    teamwork,
-    motivation,
-    hope,
-    personality,
-    growth,
-    issue,
-    opinion,
-    ethic,
-    setSucceed,
-    setJob,
-    setTeamwork,
-    setMotivation,
-    setHope,
-    setPersonality,
-    setGrowth,
-    setIssue,
-    setOpinion,
-    setEthic,
-  } = useEssay();
+  const { category, essay, setCategory, setEssay } = useEssay();
   const router = useRouter();
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setSucceed(e.target.value);
-    console.log(e.target.value);
+  const handleCategory = (e: any) => {
+    setCategory(e.target.value);
+  };
+  const handleEssay = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setEssay(e.target.value);
   };
 
-  const submit = useCallback(() => {
-    router.push("/evaluation");
+  const submit = useCallback(async () => {
+    const [data, error] = await postEssay({
+      category: category,
+      essay: essay,
+    });
+    router.push(`/essay/${1}`);
   }, []);
 
   return (
     <div className="grid grid-flow-col grid-cols-4">
       <div className="grid items-center">
         {data.map((e, key) => (
-          <div className="grid-cols-12" key={key}>
+          <button className="grid-cols-12" key={key} value={e.category} onClick={handleCategory}>
             {e.category}
-          </div>
+          </button>
         ))}
       </div>
       <div className="grid">{"대충 자기소개서 분석한 내용"}</div>
       <div className="col-span-2 grid justify-items-center">
         <h1>자기소개서 문항</h1>
         <div>{"카테고리 별 질문지"}</div>
-        <textarea onChange={handleChange} />
+        <textarea onChange={handleEssay} />
         <button onClick={submit}>제출</button>
       </div>
     </div>

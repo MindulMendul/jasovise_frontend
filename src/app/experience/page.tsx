@@ -5,25 +5,27 @@ import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ExperiencePage() {
-  const { experience, setExperience } = useExperience();
+  const { title, content, setTitle, setContent } = useExperience();
   const router = useRouter();
   const submit = useCallback(() => {
     router.push("/experience/1");
+  }, [title, content]);
+
+  const handleTitle = useCallback((e: any) => {
+    setTitle(e.target.value);
   }, []);
 
-  const handleExperience = useCallback((e: any) => {
-    setExperience(e.target.value);
+  const handleContent = useCallback((e: any) => {
+    setContent(e.target.value);
   }, []);
 
   return (
     <div className="grid items-center justify-items-center">
       <h1>경험</h1>
-      <div>어떤 경험을 하셨나요? (한줄요약)</div>
-      <input type={"text"} />
-      <div>그 경험에는 어떤 강점이 있나요?</div>
-      <input type={"text"} />
+      <div>어떤 경험을 하셨나요? 그 경험에 대한 제목을 지어주세요.</div>
+      <input value={title} onChange={handleTitle} type={"text"} />
       <div>구체적인 경험을 가감없이 작성해주세요.</div>
-      <textarea value={experience} onChange={handleExperience} />
+      <textarea value={content} onChange={handleContent} />
       <button onClick={submit}>확인</button>
     </div>
   );

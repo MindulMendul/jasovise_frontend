@@ -1,6 +1,6 @@
 // POST할 자기소개서 body
 type PostEssayAPI = {
-  title: string;
+  category: string;
   essay: string;
 };
 

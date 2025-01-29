@@ -1,23 +1,35 @@
 import { create } from "zustand";
 
 interface ExperienceState {
-  result: ExperienceResult | null;
-  experience: string;
+  title: string;
+  content: string;
+  summary: string;
+  detail: Array<ExperienceDetail>;
 }
 
 interface ExperienceActions {
-  setResult: (result: ExperienceResult) => void;
-  setExperience: (experience: string) => void;
+  setTitle: (title: string) => void;
+  setContent: (content: string) => void;
+  setSummary: (summary: string) => void;
+  setDetail: (detail: Array<ExperienceDetail>) => void;
 }
 
 const useExperience = create<ExperienceState & ExperienceActions>((set) => ({
-  result: null,
-  experience: "",
-  setResult: (result: ExperienceResult) => {
-    set({ result });
+  title: "",
+  content: "",
+  summary: "",
+  detail: [],
+  setTitle: (title: string) => {
+    set({ title });
   },
-  setExperience: (experience: string) => {
-    set({ experience });
+  setContent: (content: string) => {
+    set({ content });
+  },
+  setSummary: (summary: string) => {
+    set({ summary });
+  },
+  setDetail: (detail: Array<ExperienceDetail>) => {
+    set({ detail });
   },
 }));
 
